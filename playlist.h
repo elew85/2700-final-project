@@ -6,6 +6,7 @@
 
 using namespace std; 
 
+//create song metadata object
 struct song {
   string title;
   string artist;
@@ -31,7 +32,7 @@ public:
 
   void PrevSong();
 
-  void RemoveSong();
+  void RemoveSong(string title);
 
   void Restart();
 
@@ -41,6 +42,7 @@ private:
   song* first;
   song* last; 
   float trt; 
+  int song_count; 
 };
 
 #endif 
