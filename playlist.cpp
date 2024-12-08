@@ -19,18 +19,27 @@ song* Playlist::initSong(string title, string artist, string genre, float durati
   return new_song; 
 }
 
-void Playlist::AddNewSong(string title, string artist, string genre, float duration){
+void Playlist::AppendNewSong(string title, string artist, string genre, float duration){
   song* new_song = initSong(title, artist, genre, duration);
-  song* cursor = first; 
-  this->trt += duration; 
+  song* cursor = first;
   if(cursor == NULL){
     first = new_song; 
+    this->trt += duration; 
     return;
   }
-  return;
+  else {
+    while(cursor->next != NULL){
+      cursor = cursor->next;
+   }
+   cursor->next = new_song; 
+   cursor->next->prev = cursor; 
+   this->last = new_song; 
+   this->trt += duration; 
+   return;
+  }
 }
 
-void Playlist::PlaySong(){}
+void Playlist::StartPlaylist(){}
 
 void Playlist::Pause(){}
 
@@ -43,8 +52,16 @@ void Playlist::RemoveSong(){}
 void Playlist::Restart(){}
 
 void Playlist::ReadPlaylist(){
-  cout << "artist: " << first->artist << endl;
-  cout << "title: " << first->title << endl;
-  cout << "genre: " << first->genre << endl; 
-  cout << "duration: " << first->duration << endl;
+  song* cursor = this->first;
+  while(cursor != NULL){
+    cout << "----------" << endl;
+    cout << "Artist: " << cursor->artist << endl;
+    cout << "Title: " << cursor->title << endl;
+    cout << "Genre: " << cursor->genre << endl; 
+    cout << "Duration: " << cursor->duration << endl;
+    cout << "----------" << endl;
+    cursor = cursor->next; 
+  }
+
+  
 }

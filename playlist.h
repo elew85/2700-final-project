@@ -21,9 +21,9 @@ public:
 
   song* initSong(string title, string artist, string genre, float duration);
 
-  void AddNewSong(string title, string artist, string genre, float duration);
+  void AppendNewSong(string title, string artist, string genre, float duration);
 
-  void PlaySong();
+  void StartPlaylist();
 
   void Pause();
 
