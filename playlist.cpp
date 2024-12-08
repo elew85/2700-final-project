@@ -1,12 +1,12 @@
 #include "playlist.h"
 
+using namespace std;
+
 Playlist::Playlist(){
   first = NULL;
   last = NULL;
   trt = 0; 
 }
-
-Playlist::~Playlist(){}
 
 song* Playlist::initSong(string title, string artist, string genre, float duration){
   song* new_song(new song); 
@@ -16,11 +16,13 @@ song* Playlist::initSong(string title, string artist, string genre, float durati
   new_song->duration = duration;
   new_song->next = NULL;
   new_song->prev = NULL; 
+  return new_song; 
 }
 
 void Playlist::AddNewSong(string title, string artist, string genre, float duration){
   song* new_song = initSong(title, artist, genre, duration);
   song* cursor = first; 
+  this->trt += duration; 
   if(cursor == NULL){
     first = new_song; 
     return;
@@ -31,8 +33,6 @@ void Playlist::AddNewSong(string title, string artist, string genre, float durat
 void Playlist::PlaySong(){}
 
 void Playlist::Pause(){}
-
-
 
 void Playlist::NextSong(){}
 

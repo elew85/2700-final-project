@@ -1,10 +1,10 @@
-#ifndef PLAYLIST_H__
-#define PLAYLIST_H__
+#ifndef PLAYLIST_H
+#define PLAYLIST_H
 
 #include <string>
 #include <iostream>
 
-using namespace std;
+using namespace std; 
 
 struct song {
   string title;
@@ -18,8 +18,6 @@ struct song {
 class Playlist {
 public:
   Playlist();
-
-  ~Playlist();
 
   song* initSong(string title, string artist, string genre, float duration);
 
@@ -45,4 +43,4 @@ private:
   float trt; 
 };
 
-#endif
+#endif 
