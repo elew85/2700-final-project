@@ -28,7 +28,7 @@ public:
 
   void RemoveSong(string title);
 
-  void MoveToTop();
+  void MoveToTop(string title);
 
   void MoveToEnd();
   

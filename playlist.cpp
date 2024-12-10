@@ -6,7 +6,7 @@ using namespace std;
 
 void Options(){
   cout << endl << "D = Display Current Playlist " << endl;
-  cout << "P = Start Playlist " << endl;
+  cout << "S = Start Playlist " << endl;
   cout << "Q = Quit Program " << endl << endl;
 }
 
@@ -75,10 +75,26 @@ void Playlist::RemoveSong(string title){
    }
 }
 
-void MoveToTop(){}
+void Playlist::MoveToTop(string title){
 //moves song to top of list
+  song* cursor = this->first; 
+  while(cursor != NULL){
+    if(cursor->title == title){
+      cursor->prev->next = cursor->next;
+      cursor->next->prev = cursor->prev; 
+      cursor->next = this->first;
+      cursor->prev = NULL;  
+      this->first = cursor;
+      return; 
+    }
+    else {
+      cursor = cursor->next; 
+    }
+  }
+  return; 
+}
 
-void MoveToEnd(){}
+void Playlist::MoveToEnd(){}
 //moves song to bottom of list
 
 void Playlist::ReadPlaylist(){
@@ -135,15 +151,8 @@ void Playlist::StartPlaylist(){
       cout << "End of playlist! " << endl; 
     }
     else{
-      // cin >> state;
-      // state = toupper(state);
-      // if(state = '>'){
         cursor = cursor->next;
-      // }
-      // else if (state = 'S'){
-      //   completed = true;
-      }
-    // }
+    }
   }
 }
 

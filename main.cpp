@@ -22,6 +22,12 @@ int main() {
  my_playlist.AppendNewSong("Broken Man", "St. Vincent", "Rock", 234);
  my_playlist.ReadPlaylist();
 
+ my_playlist.MoveToTop("Negative Space");
+ my_playlist.ReadPlaylist(); 
+
+ my_playlist.MoveToTop("Blue in Green");
+ my_playlist.ReadPlaylist(); 
+
  while(!end_program){
     cout << "Enter a command ('M' displays menu): " << endl;
     cin >> state;
