@@ -34,12 +34,14 @@ void Playlist::AppendNewSong(string title, string artist, string genre, float du
   song* cursor = first;
   //check if playlist is empty
   if(cursor == NULL){
-    first = new_song; 
+    first = new_song;
+    last = new_song;  
     this->trt += duration; 
     this->song_count++; 
     return;
   }
   //add song to end of current list, add duration & point to previous
+  // FIX: shouldn't need to traverse entire list if only appending to end
   else {
     while(cursor->next != NULL){
       cursor = cursor->next;
@@ -77,12 +79,16 @@ void Playlist::RemoveSong(string title){
 
 void Playlist::MoveToTop(string title){
 //moves song to top of list
+//FIX: seg fault when moving last song to top of list
   song* cursor = this->first; 
   while(cursor != NULL){
     if(cursor->title == title){
       cursor->prev->next = cursor->next;
-      cursor->next->prev = cursor->prev; 
+      if(cursor->next != NULL){
+        cursor->next->prev = cursor->prev; 
+      }
       cursor->next = this->first;
+      this->first->prev = cursor; 
       cursor->prev = NULL;  
       this->first = cursor;
       return; 

@@ -25,6 +25,12 @@ int main() {
  my_playlist.MoveToTop("Negative Space");
  my_playlist.ReadPlaylist(); 
 
+ my_playlist.MoveToTop("Broken Man");
+ my_playlist.ReadPlaylist(); 
+
+ my_playlist.MoveToTop("Grace");
+ my_playlist.ReadPlaylist(); 
+
  my_playlist.MoveToTop("Blue in Green");
  my_playlist.ReadPlaylist(); 
 
