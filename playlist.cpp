@@ -1,7 +1,14 @@
 #include "playlist.h"
+#include <iostream>
 #include <unistd.h>
 
 using namespace std;
+
+void Options(){
+  cout << endl << "D = Display Current Playlist " << endl;
+  cout << "P = Start Playlist " << endl;
+  cout << "Q = Quit Program " << endl << endl;
+}
 
 Playlist::Playlist(){
   first = NULL;
@@ -10,6 +17,7 @@ Playlist::Playlist(){
   song_count = 0;
 }
 
+// Playlist edit controls
 song* Playlist::initSong(string title, string artist, string genre, float duration){
   song* new_song(new song); 
   new_song->title = title;
@@ -45,38 +53,6 @@ void Playlist::AppendNewSong(string title, string artist, string genre, float du
   }
 }
 
-void Playlist::StartPlaylist(){
-  bool completed = false; 
-  song* cursor = this->first; 
-  float time_remaining = this->trt; 
-  
-  while(!completed){
-    cout << "Now Playing: " << cursor->title << " by " << cursor->artist << endl;
-    time_remaining -= cursor->duration; 
-    if(cursor->next != NULL){
-      cout << "-------------" << endl; 
-      cout << "Up Next: " << cursor->next->title << " by " << cursor->next->artist << endl;
-      
-    }
-    cout << "Time Remaining: " << time_remaining << endl; 
-    sleep(20); 
-    if(cursor->next == NULL){
-      completed = true;
-      cout << "End of playlist! " << endl; 
-
-    }
-    else{
-      cursor = cursor->next; 
-    }
-  }
-}
-
-void Playlist::Pause(){}
-
-void Playlist::NextSong(){}
-
-void Playlist::PrevSong(){}
-
 void Playlist::RemoveSong(string title){
    song* cursor = this->first; 
    bool found = false; 
@@ -99,20 +75,82 @@ void Playlist::RemoveSong(string title){
    }
 }
 
-void Playlist::Restart(){}
+void MoveToTop(){}
+//moves song to top of list
+
+void MoveToEnd(){}
+//moves song to bottom of list
 
 void Playlist::ReadPlaylist(){
   song* cursor = this->first;
+  int track_num = 1;   
   cout << "----------" << endl;
   while(cursor != NULL){
-    cout << "Artist: " << cursor->artist << endl;
-    cout << "Title: " << cursor->title << endl;
-    cout << "Genre: " << cursor->genre << endl; 
-    cout << "Duration: " << cursor->duration << endl;
-    cout << "----------" << endl;
+    cout << track_num << ". " << cursor->title << " by " << cursor->artist << endl;
+    // cout << "Title: " << cursor->title << endl;
+    // cout << "Genre: " << cursor->genre << endl; 
+    // cout << "Duration: " << cursor->duration << endl;
+    // cout << "----------" << endl;
     cursor = cursor->next; 
+    track_num++; 
   }
-  cout << song_count << " total songs" << endl; 
+  cout << endl << song_count << " total songs" << endl; 
   cout << "Total Playlist Runtime (sec): " << trt << endl; 
   cout << "----------" << endl;
 }
+
+void ClearPlaylist();
+//Clears all songs in playlist
+
+//Player Controls 
+void Playlist::StartPlaylist(){
+  bool completed = false; 
+  song* cursor = this->first; 
+  string state; 
+
+  float time_remaining = this->trt; 
+  int songs_remaining = this->song_count; 
+
+   cout << "++++++++++" << endl;
+   cout << "CONTROLS:" << endl;
+   cout << "Enter 'P' to Pause/Resume; '<' for Previous; '>' for Next;'R' to restart; 'S' to stop"<< endl; 
+   cout << "++++++++++" << endl;
+  
+  while(!completed){
+    state = "P";
+    cout << "Now Playing: " << cursor->title << " by " << cursor->artist << endl; 
+    songs_remaining--; 
+    if(cursor->next != NULL){
+      cout << "-------------" << endl; 
+      cout << "Up Next: " << cursor->next->title << " by " << cursor->next->artist << endl;
+      
+    }
+    cout << "Songs Remaining: " << songs_remaining << endl; 
+    cout << "Time Remaining: " << time_remaining << endl; 
+
+    sleep(cursor->duration/10); //variable play duration, but shortened for demonstration
+    time_remaining -= cursor->duration;
+    if(cursor->next == NULL){
+      completed = true;
+      cout << "End of playlist! " << endl; 
+    }
+    else{
+      // cin >> state;
+      // state = toupper(state);
+      // if(state = '>'){
+        cursor = cursor->next;
+      // }
+      // else if (state = 'S'){
+      //   completed = true;
+      }
+    // }
+  }
+}
+
+void Playlist::Pause(){}
+
+void Playlist::NextSong(){}
+
+void Playlist::PrevSong(){}
+
+void Playlist::Restart(){}

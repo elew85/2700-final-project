@@ -2,7 +2,6 @@
 #define PLAYLIST_H
 
 #include <string>
-#include <iostream>
 
 using namespace std; 
 
@@ -16,14 +15,28 @@ struct song {
   song* prev; 
 };
 
+void Options();
+
 class Playlist {
 public:
   Playlist();
 
+  // Playlist edit controls
   song* initSong(string title, string artist, string genre, float duration);
 
   void AppendNewSong(string title, string artist, string genre, float duration);
 
+  void RemoveSong(string title);
+
+  void MoveToTop();
+
+  void MoveToEnd();
+  
+  void ReadPlaylist(); 
+
+  void ClearPlaylist();
+
+  // Player Controls
   void StartPlaylist();
 
   void Pause();
@@ -32,11 +45,7 @@ public:
 
   void PrevSong();
 
-  void RemoveSong(string title);
-
   void Restart();
-
-  void ReadPlaylist(); 
 
 private:
   song* first;
