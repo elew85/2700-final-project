@@ -4,11 +4,18 @@
 
 using namespace std;
 
-void Options(){
+void MainMenu(){
   cout << endl << "D = Display Current Playlist " << endl;
+  cout << "T = Move song to Top of Playlist " << endl;
+  cout << "E = Move song to End of Playlist " << endl;
+  cout << "A = Add New Song " << endl;
+  cout << "R = Remove Song " << endl;
   cout << "S = Start Playlist " << endl;
   cout << "Q = Quit Program " << endl << endl;
 }
+
+void EditMenu(){}
+// to include the editing options
 
 Playlist::Playlist(){
   first = NULL;
@@ -17,7 +24,6 @@ Playlist::Playlist(){
   song_count = 0;
 }
 
-// Playlist edit controls
 song* Playlist::initSong(string title, string artist, string genre, float duration){
   song* new_song(new song); 
   new_song->title = title;
@@ -29,6 +35,7 @@ song* Playlist::initSong(string title, string artist, string genre, float durati
   return new_song; 
 }
 
+// Playlist edit controls
 void Playlist::AppendNewSong(string title, string artist, string genre, float duration){
   song* new_song = initSong(title, artist, genre, duration);
   song* cursor = first;
@@ -65,11 +72,23 @@ void Playlist::RemoveSong(string title){
       return; 
      }
     if(cursor->title == title){
-      cursor->prev->next = cursor->next;
+      if(cursor->next != NULL ){
+        cursor->next->prev = cursor->prev;
+      }
+      if(cursor->prev != NULL){
+        cursor->prev->next = cursor->next;
+      }
+      if(cursor == first){
+        first = cursor->next;
+      }
+      if(cursor == last){
+        last = cursor->prev; 
+      }
       this->trt -= cursor->duration; 
       this->song_count--; 
       delete cursor;
       found = true; 
+      cout << endl << "Successfully removed '" << title << "'" << endl << endl; 
     }
     else {
       cursor = cursor->next; 
@@ -79,7 +98,6 @@ void Playlist::RemoveSong(string title){
 
 void Playlist::MoveToTop(string title){
 //moves song to top of list
-//FIX: seg fault when moving last song to top of list
   song* cursor = this->first; 
   while(cursor != NULL){
     if(cursor->title == title){
@@ -91,6 +109,7 @@ void Playlist::MoveToTop(string title){
       this->first->prev = cursor; 
       cursor->prev = NULL;  
       this->first = cursor;
+      cout << endl << "Successfully moved '" << title << "' to the top!" << endl << endl;
       return; 
     }
     else {
@@ -100,19 +119,53 @@ void Playlist::MoveToTop(string title){
   return; 
 }
 
-void Playlist::MoveToEnd(){}
+void Playlist::MoveToEnd(string title){
 //moves song to bottom of list
+  song* cursor = this->first;
+  while(cursor != NULL){
+    if(cursor->title == title){
+      if(cursor == first){
+        cursor->next->prev = NULL;
+        first = cursor->next; 
+        cursor->prev = last;
+        last->next = cursor;
+        cursor->next = NULL;
+        last = cursor; 
+        cout << "Successfully moved '" << title << "' to the end of list!" << endl;
+        return;
+      }
+      else if(cursor == last){
+        cout << "'" << title << "' is already last!" << endl; 
+        return;
+      }
+      else{
+        cursor->prev->next = cursor->next;
+        cursor->prev = last;
+        last->next = cursor; 
+        cursor->next = NULL;
+        last = cursor;
+        cout << "Successfully moved '" << title << "' to the end of list!" << endl;
+        return;
+      }
+    }
+    else {
+      cursor = cursor->next;
+      }
+  }
+  return; 
+}
 
 void Playlist::ReadPlaylist(){
+  //FIX: infinite loop when only one song
+  if(first == NULL){
+    cout << "Playlist is empty!" << endl;
+    return; 
+  }
   song* cursor = this->first;
   int track_num = 1;   
   cout << "----------" << endl;
   while(cursor != NULL){
     cout << track_num << ". " << cursor->title << " by " << cursor->artist << endl;
-    // cout << "Title: " << cursor->title << endl;
-    // cout << "Genre: " << cursor->genre << endl; 
-    // cout << "Duration: " << cursor->duration << endl;
-    // cout << "----------" << endl;
     cursor = cursor->next; 
     track_num++; 
   }

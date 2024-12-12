@@ -15,22 +15,24 @@ struct song {
   song* prev; 
 };
 
-void Options();
+void MainMenu();
+
+void EditMenu();
 
 class Playlist {
 public:
   Playlist();
-
-  // Playlist edit controls
+ 
   song* initSong(string title, string artist, string genre, float duration);
-
+  
+  // Playlist edit controls
   void AppendNewSong(string title, string artist, string genre, float duration);
 
   void RemoveSong(string title);
 
   void MoveToTop(string title);
 
-  void MoveToEnd();
+  void MoveToEnd(string title);
   
   void ReadPlaylist(); 
 
