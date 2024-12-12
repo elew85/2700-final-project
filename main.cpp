@@ -31,6 +31,9 @@ int main() {
     else if(state == "d"){
       my_playlist.ReadPlaylist(); 
     }
+    else if(state == "e"){
+      EditMenu(); 
+    }
     else if(state == "t"){
        string title;
        cout << "Enter the title you wish to move to TOP of list (case-sensitive): " << endl;
@@ -38,12 +41,12 @@ int main() {
        getline(cin, title);  
        my_playlist.MoveToTop(title); 
     }
-   else if(state == "e"){
+   else if(state == "b"){
        string title;
-       cout << "Enter the title you wish to move to END of list (case-sensitive): " << endl;
+       cout << "Enter the title you wish to move to BOTTOM of list (case-sensitive): " << endl;
        cin.ignore();
        getline(cin, title);  
-       my_playlist.MoveToEnd(title); 
+       my_playlist.MoveToBottom(title); 
    }   
    else if(state == "a"){
        string title, artist, genre, duration;
@@ -74,7 +77,15 @@ int main() {
     }
     else if(state == "q"){
        end_program = true;
-       cout << "Goodbye!" << endl;
+       cout << "==========================================";
+       cout << R"(   
+   ___                _ _                
+  / _ \___   ___   __| | |__  _   _  ___ 
+ / /_\/ _ \ / _ \ / _` | '_ \| | | |/ _ \
+/ /_\\ (_) | (_) | (_| | |_) | |_| |  __/
+\____/\___/ \___/ \__,_|_.__/ \__, |\___|
+                              |___/   )" << endl; 
+       cout << "==========================================" << endl;
     }
     else {
         cout << "Not a valid option..." << endl;

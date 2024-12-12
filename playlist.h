@@ -32,7 +32,7 @@ public:
 
   void MoveToTop(string title);
 
-  void MoveToEnd(string title);
+  void MoveToBottom(string title);
   
   void ReadPlaylist(); 
 
@@ -46,6 +46,8 @@ public:
   void NextSong();
 
   void PrevSong();
+
+  void Loop(); 
 
   void Restart();
 

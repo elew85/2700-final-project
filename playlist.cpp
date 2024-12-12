@@ -6,16 +6,23 @@ using namespace std;
 
 void MainMenu(){
   cout << endl << "D = Display Current Playlist " << endl;
-  cout << "T = Move song to Top of Playlist " << endl;
-  cout << "E = Move song to End of Playlist " << endl;
-  cout << "A = Add New Song " << endl;
-  cout << "R = Remove Song " << endl;
+  cout << "E = Open Edit Menu " << endl;
+  // cout << "A = Add New Song " << endl;
+  // cout << "R = Remove Song " << endl;
+  // cout << "T = Move song to Top of Playlist " << endl;
+  // cout << "B = Move song to Bottom of Playlist " << endl;
   cout << "S = Start Playlist " << endl;
   cout << "Q = Quit Program " << endl << endl;
 }
 
-void EditMenu(){}
+void EditMenu(){
 // to include the editing options
+  cout << endl << "EDIT MENU: " << endl; 
+  cout << "A = Add New Song " << endl;
+  cout << "R = Remove Song " << endl;
+  cout << "T = Move song to Top of Playlist " << endl;
+  cout << "B = Move song to Bottom of Playlist " << endl << endl;
+}
 
 Playlist::Playlist(){
   first = NULL;
@@ -119,7 +126,7 @@ void Playlist::MoveToTop(string title){
   return; 
 }
 
-void Playlist::MoveToEnd(string title){
+void Playlist::MoveToBottom(string title){
 //moves song to bottom of list
   song* cursor = this->first;
   while(cursor != NULL){
@@ -220,5 +227,7 @@ void Playlist::Pause(){}
 void Playlist::NextSong(){}
 
 void Playlist::PrevSong(){}
+
+void Playlist::Loop(){}
 
 void Playlist::Restart(){}
