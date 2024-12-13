@@ -23,10 +23,10 @@ class Playlist {
 public:
   Playlist();
  
-  song* initSong(string title, string artist, string genre, float duration);
+  song* initSong(string title, string artist, string genre, int duration);
   
   // Playlist edit controls
-  void AppendNewSong(string title, string artist, string genre, float duration);
+  void AppendNewSong(string title, string artist, string genre, int duration);
 
   void RemoveSong(string title);
 
@@ -38,18 +38,10 @@ public:
 
   void ClearPlaylist();
 
-  // Player Controls
+  // Play Functions
   void StartPlaylist();
 
-  void Pause();
-
-  void NextSong(song* cursor);
-
-  void PrevSong(song* cursor);
-
-  void Loop(); 
-
-  void Restart();
+  void PlayReverse();
 
 private:
   song* first;

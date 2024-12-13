@@ -27,6 +27,7 @@ void MainMenu(){
   cout << endl << "D = Display Current Playlist " << endl;
   cout << "E = Open Edit Menu " << endl;
   cout << "S = Start Playlist " << endl;
+  cout << "R = Start Playlist in Reverse " << endl;
   cout << "Q = Quit Program " << endl << endl;
 }
 
@@ -34,7 +35,7 @@ void EditMenu(){
 // to include the editing options
   cout << endl << "EDIT MENU: " << endl; 
   cout << "A = Add New Song " << endl;
-  cout << "R = Remove Song " << endl;
+  cout << "X = Remove Song " << endl;
   cout << "T = Move song to Top of Playlist " << endl;
   cout << "B = Move song to Bottom of Playlist " << endl;
   cout << "C = Clear Playlist " << endl << endl;
@@ -47,7 +48,7 @@ Playlist::Playlist(){
   song_count = 0;
 }
 
-song* Playlist::initSong(string title, string artist, string genre, float duration){
+song* Playlist::initSong(string title, string artist, string genre, int duration){
   song* new_song(new song); 
   new_song->title = title;
   new_song->artist = artist;
@@ -59,11 +60,9 @@ song* Playlist::initSong(string title, string artist, string genre, float durati
 }
 
 // Playlist edit controls
-void Playlist::AppendNewSong(string title, string artist, string genre, float duration){
+void Playlist::AppendNewSong(string title, string artist, string genre, int duration){
   song* new_song = initSong(title, artist, genre, duration);
-  song* cursor = first;
-  //check if playlist is empty
-  if(cursor == NULL){
+  if(this->first == NULL){
     first = new_song;
     last = new_song;  
     this->trt += duration; 
@@ -71,16 +70,13 @@ void Playlist::AppendNewSong(string title, string artist, string genre, float du
     return;
   }
   //add song to end of current list, add duration & point to previous
-  // FIX: shouldn't need to traverse entire list if only appending to end
   else {
-    while(cursor->next != NULL){
-      cursor = cursor->next;
-   }
-   cursor->next = new_song; 
-   cursor->next->prev = cursor; 
+   this->last->next = new_song;
+   new_song->prev = this->last;
    this->last = new_song; 
    this->trt += duration;
    this->song_count++;  
+   cout << "Added " << new_song->title << " by " << new_song->artist << endl << endl; 
    return;
   }
 }
@@ -211,9 +207,8 @@ void Playlist::ClearPlaylist(){
   this->song_count = 0; 
   cout << "Playlist has been cleared!" << endl; 
 }
-  
 
-//Player Controls 
+//Play Functions
 void Playlist::StartPlaylist(){
   bool completed = false; 
   song* cursor = this->first; 
@@ -247,6 +242,7 @@ void Playlist::StartPlaylist(){
        else {
         completed = true;
         cout << "End of playlist! " << endl;
+        cout << "================! " << endl;
        }
     }
     else {
@@ -255,17 +251,44 @@ void Playlist::StartPlaylist(){
   }
 }
 
-void Playlist::Pause(){}
+void Playlist::PlayReverse(){
+  bool completed = false; 
+  song* cursor = this->last; 
 
-void Playlist::NextSong(song* cursor){
-  cursor = cursor->next; 
+  int time_remaining = this->trt; 
+  int songs_remaining = this->song_count; 
+  cout << "Playing in Reverse order!" << endl << endl; 
+  while(!completed){
+    cout << "Now Playing: " << cursor->title << " by " << cursor->artist << endl; 
+    cout << "Genre: " << cursor->genre << endl;
+    cout << "Song Duration: " << cursor->duration/60 << "m" 
+         << cursor->duration - (cursor->duration/60 * 60) << "s" << endl << endl;
+    cout << "Songs Remaining in List: " << songs_remaining << endl; 
+    cout << "Time Remaining in List: " << time_remaining/60 << "m" 
+         << time_remaining - (time_remaining/60 * 60) << "s" << endl; 
+    songs_remaining--; 
+    sleep(5);
+    if(cursor->prev != NULL){
+      cout << "-------------" << endl; 
+      cout << "Up Next: " << cursor->prev->title << " by " << cursor->prev->artist << endl; 
+    }
+    sleep(cursor->duration/15 - 7);
+    time_remaining -= cursor->duration;
+    if(cursor->prev == NULL){
+       string replay; 
+       cout << "Do you wish to replay in reverse order? (Y or N) " << endl;
+       cin >> replay;
+       if(replay == "y" || replay == "Y"){
+         PlayReverse();
+       }
+       else {
+        completed = true;
+        cout << "End of playlist! " << endl;
+        cout << "================! " << endl;
+       }
+    }
+    else {
+        cursor = cursor->prev;
+    }
+  }
 }
-
-void Playlist::PrevSong(song* cursor){
-  cursor = cursor->prev;
-}
-
-void Playlist::Loop(){
-}
-
-void Playlist::Restart(){}
