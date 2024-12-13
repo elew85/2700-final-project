@@ -4,13 +4,28 @@
 
 using namespace std;
 
+void Welcome(){
+  cout << R"( 
+__       __                  _______   __                      __  __              __     
+|  \     /  \                |       \ |  \                    |  \|  \            |  \    
+| $$\   /  $$ __    __       | $$$$$$$\| $$  ______   __    __ | $$ \$$  _______  _| $$_   
+| $$$\ /  $$$|  \  |  \      | $$__/ $$| $$ |      \ |  \  |  \| $$|  \ /       \|   $$ \  
+| $$$$\  $$$$| $$  | $$      | $$    $$| $$  \$$$$$$\| $$  | $$| $$| $$|  $$$$$$$ \$$$$$$  
+| $$\$$ $$ $$| $$  | $$      | $$$$$$$ | $$ /      $$| $$  | $$| $$| $$ \$$    \   | $$ __ 
+| $$ \$$$| $$| $$__/ $$      | $$      | $$|  $$$$$$$| $$__/ $$| $$| $$ _\$$$$$$\  | $$|  \
+| $$  \$ | $$ \$$    $$      | $$      | $$ \$$    $$ \$$    $$| $$| $$|       $$   \$$  $$
+ \$$      \$$ _\$$$$$$$       \$$       \$$  \$$$$$$$ _\$$$$$$$ \$$ \$$ \$$$$$$$     \$$$$ 
+             |  \__| $$                              |  \__| $$                            
+              \$$    $$                               \$$    $$                            
+               \$$$$$$                                 \$$$$$$  )" << endl << endl; 
+
+  cout << "Your personalized music queue!" << endl << endl;
+  cout << "This comes with the following pre-loaded songs:" << endl << endl; 
+}
+
 void MainMenu(){
   cout << endl << "D = Display Current Playlist " << endl;
   cout << "E = Open Edit Menu " << endl;
-  // cout << "A = Add New Song " << endl;
-  // cout << "R = Remove Song " << endl;
-  // cout << "T = Move song to Top of Playlist " << endl;
-  // cout << "B = Move song to Bottom of Playlist " << endl;
   cout << "S = Start Playlist " << endl;
   cout << "Q = Quit Program " << endl << endl;
 }
@@ -21,7 +36,8 @@ void EditMenu(){
   cout << "A = Add New Song " << endl;
   cout << "R = Remove Song " << endl;
   cout << "T = Move song to Top of Playlist " << endl;
-  cout << "B = Move song to Bottom of Playlist " << endl << endl;
+  cout << "B = Move song to Bottom of Playlist " << endl;
+  cout << "C = Clear Playlist " << endl << endl;
 }
 
 Playlist::Playlist(){
@@ -163,9 +179,9 @@ void Playlist::MoveToBottom(string title){
 }
 
 void Playlist::ReadPlaylist(){
-  //FIX: infinite loop when only one song
+  //Prints all current songs in playlist
   if(first == NULL){
-    cout << "Playlist is empty!" << endl;
+    cout << endl << "Your playlist is empty. Time to add some music!" << endl << endl;
     return; 
   }
   song* cursor = this->first;
@@ -181,42 +197,59 @@ void Playlist::ReadPlaylist(){
   cout << "----------" << endl;
 }
 
-void ClearPlaylist();
+void Playlist::ClearPlaylist(){
 //Clears all songs in playlist
+  song* cursor = this->last;
+  while(cursor != NULL){
+    song* temp = cursor;
+    cursor = cursor->prev;
+    delete temp;
+  }
+  this->first = NULL;
+  this->last = NULL;
+  this->trt = 0;
+  this->song_count = 0; 
+  cout << "Playlist has been cleared!" << endl; 
+}
+  
 
 //Player Controls 
 void Playlist::StartPlaylist(){
   bool completed = false; 
   song* cursor = this->first; 
-  string state; 
 
-  float time_remaining = this->trt; 
+  int time_remaining = this->trt; 
   int songs_remaining = this->song_count; 
-
-   cout << "++++++++++" << endl;
-   cout << "CONTROLS:" << endl;
-   cout << "Enter 'P' to Pause/Resume; '<' for Previous; '>' for Next;'R' to restart; 'S' to stop"<< endl; 
-   cout << "++++++++++" << endl;
   
   while(!completed){
-    state = "P";
     cout << "Now Playing: " << cursor->title << " by " << cursor->artist << endl; 
+    cout << "Genre: " << cursor->genre << endl;
+    cout << "Song Duration: " << cursor->duration/60 << "m" 
+         << cursor->duration - (cursor->duration/60 * 60) << "s" << endl << endl;
+    cout << "Songs Remaining in List: " << songs_remaining << endl; 
+    cout << "Time Remaining in List: " << time_remaining/60 << "m" 
+         << time_remaining - (time_remaining/60 * 60) << "s" << endl; 
     songs_remaining--; 
+    sleep(5);
     if(cursor->next != NULL){
       cout << "-------------" << endl; 
-      cout << "Up Next: " << cursor->next->title << " by " << cursor->next->artist << endl;
-      
+      cout << "Up Next: " << cursor->next->title << " by " << cursor->next->artist << endl; 
     }
-    cout << "Songs Remaining: " << songs_remaining << endl; 
-    cout << "Time Remaining: " << time_remaining << endl; 
-
-    sleep(cursor->duration/10); //variable play duration, but shortened for demonstration
+    sleep(cursor->duration/15 - 7);
     time_remaining -= cursor->duration;
     if(cursor->next == NULL){
-      completed = true;
-      cout << "End of playlist! " << endl; 
+       string replay; 
+       cout << "Do you wish to replay? (Y or N) " << endl;
+       cin >> replay;
+       if(replay == "y" || replay == "Y"){
+         StartPlaylist();
+       }
+       else {
+        completed = true;
+        cout << "End of playlist! " << endl;
+       }
     }
-    else{
+    else {
         cursor = cursor->next;
     }
   }
@@ -224,10 +257,15 @@ void Playlist::StartPlaylist(){
 
 void Playlist::Pause(){}
 
-void Playlist::NextSong(){}
+void Playlist::NextSong(song* cursor){
+  cursor = cursor->next; 
+}
 
-void Playlist::PrevSong(){}
+void Playlist::PrevSong(song* cursor){
+  cursor = cursor->prev;
+}
 
-void Playlist::Loop(){}
+void Playlist::Loop(){
+}
 
 void Playlist::Restart(){}

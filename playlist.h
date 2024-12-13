@@ -10,7 +10,7 @@ struct song {
   string title;
   string artist;
   string genre; 
-  float duration;
+  int duration;
   song* next;
   song* prev; 
 };
@@ -43,9 +43,9 @@ public:
 
   void Pause();
 
-  void NextSong();
+  void NextSong(song* cursor);
 
-  void PrevSong();
+  void PrevSong(song* cursor);
 
   void Loop(); 
 
@@ -54,7 +54,7 @@ public:
 private:
   song* first;
   song* last; 
-  float trt; 
+  int trt; 
   int song_count; 
 };
 
