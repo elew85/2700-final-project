@@ -58,11 +58,8 @@ int main() {
        cin.ignore();
        getline(cin, title);
        cout << "Enter the artist name: " << endl;
-       cin.ignore();
-       //This truncates the first letter of artist name for some reason...
        getline(cin, artist);
        cout << "What is the genre? " << endl;
-       cin.ignore();
        getline(cin, genre);
        cout << "How long is the song? (sec) " << endl;
        cin >> duration;
