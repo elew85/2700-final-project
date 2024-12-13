@@ -13,7 +13,7 @@ media player or additional libraries, a user could also more easily navigate thr
 doubly-linked list would not present a major concern for this use case. 
 
 HOW TO RUN PROGRAM:
-First compile "main.cpp" and output with designated filename (example: g++ main.cpp -o playlist.exe). Once you run the executable, the program will prompt you as the user with various menu options to edit and run through an abridged demonstration of how it may work.
+First compile "main.cpp" and output with designated filename (example: g++ main.cpp -o playlist.exe) // NOTE: tested with g++ (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0) // Once you run the executable, the program will prompt you as the user with various menu options to edit and run through an abridged demonstration of how it may work.
 5 songs are pre-loaded for you as a starting point, but you can either add new music or else clear entirely and start freshly from scratch.
 
 Enjoy!
